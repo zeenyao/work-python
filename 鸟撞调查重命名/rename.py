@@ -2,7 +2,8 @@ import os
 import pdfplumber
 
 # 指定目录路径
-directory_path = r'鸟撞调查/'
+current_dir = os.getcwd()
+input_path = current_dir
 
 # 指定文本区域
 region = (200, 440, 380, 520)
@@ -16,12 +17,12 @@ with pdfplumber.open(path) as pdf:
             print(f"文本: {obj['text']} | 坐标: {obj['x0']}, {obj['top']}, {obj['x1']}, {obj['bottom']}")
 '''
 # 读取目录中的所有文件，并检查文件名称是否以.pdf结尾，以确保只处理pdf文件
-file_list = os.listdir(directory_path)
+file_list = os.listdir(input_path)
 for file_name in file_list:
     if file_name.endswith('.pdf'):
 
         # 构建完整路径
-        file_path = os.path.join(directory_path, file_name)
+        file_path = os.path.join(input_path, file_name)
         
         # 使用 pdfplumber 打开 PDF 文件，并提取指定区域的文本
         with pdfplumber.open(file_path) as pdf:
@@ -33,7 +34,7 @@ for file_name in file_list:
         new_file_name = extracted_text[:20] + '.pdf'  # 这里只取文本的前20个字符作为文件名
         
         # 构建新的文件路径
-        new_file_path = os.path.join(directory_path, new_file_name)
+        new_file_path = os.path.join(input_path, new_file_name)
         
         # 重命名文件
         os.rename(file_path, new_file_path)
